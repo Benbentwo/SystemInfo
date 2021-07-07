@@ -37,7 +37,7 @@ func NewMainCmd(in terminal.FileReader, out terminal.FileWriter, err io.Writer, 
 
 	// Section to add commands to:
 	cmd.AddCommand(version.NewCmdVersion(commonOpts))
-
+	cmd.AddCommand(NewCmdInfo(commonOpts))
 	return cmd
 }
 

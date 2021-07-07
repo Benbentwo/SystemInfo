@@ -1,7 +1,7 @@
 GIT_SERVER 	:= github.com
 ORG         := Benbentwo
 REPO        := Windows10BootStrapper
-BINARY 		:= go-bin-generic
+BINARY 		:= whatami
 
 # Pretty Constant stuff Below, Configurable above
 
