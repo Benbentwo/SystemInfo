@@ -70,12 +70,12 @@ func TestLoggerFail(t *testing.T) {
 
 }
 
-func TestNewVgsTextFormat(t *testing.T) {
+func TestNewCustomTextFormat(t *testing.T) {
 	tests := []struct {
 		name string
-		want *VgsTextFormat
+		want *CustomTextFormat
 	}{
-		{"The Test", &VgsTextFormat{
+		{"The Test", &CustomTextFormat{
 			ShowInfoLevel:   false,
 			ShowTimestamp:   false,
 			TimestampFormat: "2006-01-02 15:04:05",
@@ -83,8 +83,8 @@ func TestNewVgsTextFormat(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewVgsTextFormat(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewVgsTextFormat() = %v, want %v", got, tt.want)
+			if got := NewCustomTextFormat(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewCustomTextFormat() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -131,7 +131,7 @@ func TestSetOutput(t *testing.T) {
 	}
 }
 
-func TestVgsTextFormat_Format(t *testing.T) {
+func TestCustomTextFormat_Format(t *testing.T) {
 	var dateFormatString = "2006-01-02"
 	currTime := time.Now().Format(dateFormatString)
 	type fields struct {
@@ -154,7 +154,7 @@ func TestVgsTextFormat_Format(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_ = SetLevel("Info")
-			f := &VgsTextFormat{
+			f := &CustomTextFormat{
 				ShowInfoLevel:   tt.fields.ShowInfoLevel,
 				ShowTimestamp:   tt.fields.ShowTimestamp,
 				TimestampFormat: tt.fields.TimestampFormat,
@@ -164,7 +164,7 @@ func TestVgsTextFormat_Format(t *testing.T) {
 			assert.Equal(t, tt.expectedOutput, out)
 		})
 	}
-	defaultFormat := VgsTextFormat{
+	defaultFormat := CustomTextFormat{
 		ShowInfoLevel:   false,
 		ShowTimestamp:   false,
 		TimestampFormat: "",

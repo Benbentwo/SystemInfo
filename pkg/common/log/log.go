@@ -41,15 +41,15 @@ var defaultLogger *logrus.Logger
 // FormatLayoutType the layout kind
 type FormatLayoutType string
 
-// VgsTextFormat lets use a custom text format
-type VgsTextFormat struct {
+// CustomTextFormat lets use a custom text format
+type CustomTextFormat struct {
 	ShowInfoLevel   bool
 	ShowTimestamp   bool
 	TimestampFormat string
 }
 
-func NewVgsTextFormat() *VgsTextFormat {
-	return &VgsTextFormat{
+func NewCustomTextFormat() *CustomTextFormat {
+	return &CustomTextFormat{
 		ShowInfoLevel:   false,
 		ShowTimestamp:   false,
 		TimestampFormat: "2006-01-02 15:04:05",
@@ -57,7 +57,7 @@ func NewVgsTextFormat() *VgsTextFormat {
 }
 
 // Format formats the log statement
-func (f *VgsTextFormat) Format(entry *logrus.Entry) ([]byte, error) {
+func (f *CustomTextFormat) Format(entry *logrus.Entry) ([]byte, error) {
 	var b *bytes.Buffer
 
 	if entry.Buffer != nil {
@@ -115,7 +115,7 @@ func setFormatter(layout FormatLayoutType) {
 	case "json":
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 	default:
-		logrus.SetFormatter(NewVgsTextFormat())
+		logrus.SetFormatter(NewCustomTextFormat())
 	}
 }
 
@@ -135,7 +135,6 @@ func SetLevel(s string) error {
 	if err != nil {
 		return errors.Errorf("Invalid log level '%s'", s)
 	}
-	Logger().Debugf("logging set to level: %s", level)
 	logrus.SetLevel(level)
 	return nil
 }
