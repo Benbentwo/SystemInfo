@@ -18,18 +18,21 @@ func getDisk() *ghw.BlockInfo {
 }
 
 func (sysInfo *SystemInformation) outputDiskToTable() {
-	diskCount := diskCountMap(sysInfo.Disks.Disks)
+	if sysInfo.Disks != nil {
 
-	SystemInfoWriter.AppendRow(table.Row{HEADER, "DISKs:", HEADER})
+		diskCount := diskCountMap(sysInfo.Disks.Disks)
 
-	for disk, count := range diskCount {
-		SystemInfoWriter.AppendRow(table.Row{SPACE, disk + " x " + strconv.Itoa(count), SPACE, SPACE})
+		SystemInfoWriter.AppendRow(table.Row{HEADER, "DISKs:", HEADER})
+
+		for disk, count := range diskCount {
+			SystemInfoWriter.AppendRow(table.Row{SPACE, disk + " x " + strconv.Itoa(count), SPACE, SPACE})
+		}
+
+		SystemInfoWriter.AppendRow(
+			table.Row{"TOTAL: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(sysInfo.Disks.TotalPhysicalBytes)},
+		)
+		SystemInfoWriter.AppendSeparator()
 	}
-
-	SystemInfoWriter.AppendRow(
-		table.Row{"TOTAL: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(sysInfo.Disks.TotalPhysicalBytes)},
-	)
-	SystemInfoWriter.AppendSeparator()
 }
 
 func diskCountMap(arr []*block.Disk) map[string]int {

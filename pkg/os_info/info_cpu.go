@@ -10,25 +10,28 @@ import (
 )
 
 func getCpu() *ghw.CPUInfo {
-	cpu, err := ghw.CPU()
+	cpuStats, err := ghw.CPU()
 	if err != nil {
 		log.Logger().Errorf("Error getting cpu info: %v", err)
 	}
-	return cpu
+	return cpuStats
 }
 
 func (sysInfo *SystemInformation) outputCPUToTable() {
-	processorCount := processorCountMap(sysInfo.Cpu.Processors)
-	SystemInfoWriter.AppendRow(table.Row{HEADER, "CPU:", HEADER})
+	if sysInfo.Cpu != nil {
 
-	for processor, count := range processorCount {
-		SystemInfoWriter.AppendRow(
-			table.Row{SPACE, processor + " x " + strconv.Itoa(count), SPACE, SPACE},
-		)
+		processorCount := processorCountMap(sysInfo.Cpu.Processors)
+		SystemInfoWriter.AppendRow(table.Row{HEADER, "CPU:", HEADER})
+
+		for processor, count := range processorCount {
+			SystemInfoWriter.AppendRow(
+				table.Row{SPACE, processor + " x " + strconv.Itoa(count), SPACE, SPACE},
+			)
+		}
+
+		SystemInfoWriter.AppendRow(table.Row{"TOTAL", SPACE, SPACE, SPACE, fmt.Sprintf("Total Cores: %d", sysInfo.Cpu.TotalCores), fmt.Sprintf("Total Threads: %d", sysInfo.Cpu.TotalThreads)})
+		SystemInfoWriter.AppendSeparator()
 	}
-
-	SystemInfoWriter.AppendRow(table.Row{"TOTAL", SPACE, SPACE, SPACE, fmt.Sprintf("Total Cores: %d", sysInfo.Cpu.TotalCores), fmt.Sprintf("Total Threads: %d", sysInfo.Cpu.TotalThreads)})
-	SystemInfoWriter.AppendSeparator()
 }
 
 func processorCountMap(arr []*cpu.Processor) map[string]int {

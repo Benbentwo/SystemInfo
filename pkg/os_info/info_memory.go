@@ -16,14 +16,17 @@ func getMem() *ghw.MemoryInfo {
 }
 
 func (sysInfo *SystemInformation) outputMemoryToTable() {
-	SystemInfoWriter.AppendRow(table.Row{HEADER, "Memory:", HEADER})
-	SystemInfoWriter.AppendRow(table.Row{"TOTAL Memory: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(uint64(sysInfo.Memory.TotalPhysicalBytes))})
-	SystemInfoWriter.AppendRow(table.Row{"TOTAL Usable Memory: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(uint64(sysInfo.Memory.TotalUsableBytes))})
+	if sysInfo.Memory != nil {
 
-	for _, module := range sysInfo.Memory.Modules {
-		SystemInfoWriter.AppendRow(
-			table.Row{SPACE, module.Vendor, sysInfo.Memory.TotalPhysicalBytes},
-		)
+		SystemInfoWriter.AppendRow(table.Row{HEADER, "Memory:", HEADER})
+		SystemInfoWriter.AppendRow(table.Row{"TOTAL Memory: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(uint64(sysInfo.Memory.TotalPhysicalBytes))})
+		SystemInfoWriter.AppendRow(table.Row{"TOTAL Usable Memory: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(uint64(sysInfo.Memory.TotalUsableBytes))})
+
+		for _, module := range sysInfo.Memory.Modules {
+			SystemInfoWriter.AppendRow(
+				table.Row{SPACE, module.Vendor, sysInfo.Memory.TotalPhysicalBytes},
+			)
+		}
+		SystemInfoWriter.AppendSeparator()
 	}
-	SystemInfoWriter.AppendSeparator()
 }
