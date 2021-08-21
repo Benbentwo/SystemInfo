@@ -16,12 +16,12 @@ func getGpu() *ghw.GPUInfo {
 }
 
 func (sysInfo *SystemInformation) outputGPUToTable() {
-	sysInfo.Table.AppendHeader(table.Row{HEADER, "Graphics:", HEADER})
+	SystemInfoWriter.AppendRow(table.Row{HEADER, "Graphics:", HEADER})
 	fmt.Print(sysInfo.Graphics.YAMLString())
 	for _, graphicsCard := range sysInfo.Graphics.GraphicsCards {
-		sysInfo.Table.AppendRow(
+		SystemInfoWriter.AppendRow(
 			table.Row{SPACE, graphicsCard.DeviceInfo.Revision, ""},
 		)
 	}
-	sysInfo.Table.AppendSeparator()
+	SystemInfoWriter.AppendSeparator()
 }

@@ -19,16 +19,18 @@ func getCpu() *ghw.CPUInfo {
 
 func (sysInfo *SystemInformation) outputCPUToTable() {
 	processorCount := processorCountMap(sysInfo.Cpu.Processors)
+	SystemInfoWriter.AppendRow(table.Row{HEADER, "CPU:", HEADER})
+
 	for processor, count := range processorCount {
-		sysInfo.Table.AppendHeader(table.Row{HEADER, "CPU:", HEADER})
-		sysInfo.Table.AppendRow(
-			table.Row{SPACE, processor + " x " + strconv.Itoa(count), fmt.Sprintf("Total Cores: %d", sysInfo.Cpu.TotalCores), fmt.Sprintf("Total Threads: %d", sysInfo.Cpu.TotalThreads)},
+		SystemInfoWriter.AppendRow(
+			table.Row{SPACE, processor + " x " + strconv.Itoa(count), SPACE, SPACE},
 		)
 	}
-	sysInfo.Table.AppendSeparator()
+
+	SystemInfoWriter.AppendRow(table.Row{"TOTAL", SPACE, SPACE, SPACE, fmt.Sprintf("Total Cores: %d", sysInfo.Cpu.TotalCores), fmt.Sprintf("Total Threads: %d", sysInfo.Cpu.TotalThreads)})
+	SystemInfoWriter.AppendSeparator()
 }
 
-// I don't think a single computer should have different CPUs and different processors, but just incase.
 func processorCountMap(arr []*cpu.Processor) map[string]int {
 	processorCountMap := make(map[string]int)
 	for _, processor := range arr {

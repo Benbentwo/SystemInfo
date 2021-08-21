@@ -6,3 +6,4 @@ services:
     restart: unless-stopped
     volumes:
       - "./build/:/build"
+      - ".:/workspace"

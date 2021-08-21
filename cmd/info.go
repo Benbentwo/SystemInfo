@@ -6,6 +6,8 @@ import (
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/os_info"
+	"github.com/jaypipes/ghw/pkg/context"
+	"github.com/jaypipes/ghw/pkg/marshal"
 	"github.com/spf13/cobra"
 )
 
@@ -71,10 +73,11 @@ func (o *InfoOptions) OutputInformation(information *os_info.SystemInformation) 
 
 		// TODO - outputting each of these to json will create an invalid json...
 		// 		  need to nest under system_info or as an array
-		fmt.Print(information.Cpu.JSONString(false))
-		fmt.Print(information.Memory.JSONString(false))
-		fmt.Print(information.Graphics.JSONString(false))
-		fmt.Print(information.Disks.JSONString(false))
+		fmt.Print(marshal.SafeJSON(context.New(), information, false))
+		//fmt.Print(information.Cpu.JSONString(false))
+		//fmt.Print(information.Memory.JSONString(false))
+		//fmt.Print(information.Graphics.JSONString(false))
+		//fmt.Print(information.Disks.JSONString(false))
 
 	} else if o.Output == "yaml" {
 		fmt.Print(information.Cpu.YAMLString())

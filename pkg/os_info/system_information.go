@@ -12,20 +12,20 @@ const (
 	SPACE  = ""
 )
 
+var SystemInfoWriter table.Writer = table.NewWriter()
+
 type SystemInformation struct {
-	Table    table.Writer
-	Cpu      *ghw.CPUInfo
-	Memory   *ghw.MemoryInfo
-	Graphics *ghw.GPUInfo
-	Disks    *ghw.BlockInfo
+	Cpu      *ghw.CPUInfo    `json:"cpu"`
+	Memory   *ghw.MemoryInfo `json:"memory"`
+	Graphics *ghw.GPUInfo    `json:"graphics"`
+	Disks    *ghw.BlockInfo  `json:"disks"`
 }
 
 func NewSysInfo(out terminal.FileWriter) *SystemInformation {
 	sysInfo := &SystemInformation{}
-	sysInfo.Table = table.NewWriter()
-	sysInfo.Table.Style()
+	SystemInfoWriter.Style()
+	SystemInfoWriter.SetOutputMirror(os.Stdout)
 
-	sysInfo.Table.SetOutputMirror(os.Stdout)
 	return sysInfo
 }
 
@@ -40,5 +40,5 @@ func (sysInfo *SystemInformation) RenderInformation() {
 	sysInfo.outputCPUToTable()
 	sysInfo.outputMemoryToTable()
 	sysInfo.outputDiskToTable()
-	sysInfo.Table.Render()
+	SystemInfoWriter.Render()
 }

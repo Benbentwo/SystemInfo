@@ -4,7 +4,9 @@ import (
 	"code.cloudfoundry.org/bytefmt"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
 	"github.com/jaypipes/ghw"
+	"github.com/jaypipes/ghw/pkg/block"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"strconv"
 )
 
 func getDisk() *ghw.BlockInfo {
@@ -16,20 +18,25 @@ func getDisk() *ghw.BlockInfo {
 }
 
 func (sysInfo *SystemInformation) outputDiskToTable() {
-	sysInfo.Table.AppendHeader(table.Row{HEADER, "DISKs:", HEADER})
+	diskCount := diskCountMap(sysInfo.Disks.Disks)
 
-	sysInfo.Table.AppendRow(
+	SystemInfoWriter.AppendRow(table.Row{HEADER, "DISKs:", HEADER})
+
+	for disk, count := range diskCount {
+		SystemInfoWriter.AppendRow(table.Row{SPACE, disk + " x " + strconv.Itoa(count), SPACE, SPACE})
+	}
+
+	SystemInfoWriter.AppendRow(
 		table.Row{"TOTAL: ", SPACE, SPACE, SPACE, SPACE, bytefmt.ByteSize(sysInfo.Disks.TotalPhysicalBytes)},
 	)
-	for _, disk := range sysInfo.Disks.Disks {
-		sysInfo.Table.AppendRow(
-			table.Row{SPACE, disk.Name, disk.Vendor, bytefmt.ByteSize(disk.SizeBytes)},
-		)
-		for _, partition := range disk.Partitions {
-			sysInfo.Table.AppendRow(
-				table.Row{SPACE, SPACE, partition.Name, partition.Label, partition.Type, bytefmt.ByteSize(partition.SizeBytes)},
-			)
-		}
+	SystemInfoWriter.AppendSeparator()
+}
+
+func diskCountMap(arr []*block.Disk) map[string]int {
+	diskCountMap := make(map[string]int)
+	for _, disk := range arr {
+		diskCountMap[disk.DriveType.String()] = diskCountMap[disk.DriveType.String()] + 1
 	}
-	sysInfo.Table.AppendSeparator()
+	log.Logger().Debugf("Processor Map: %s", diskCountMap)
+	return diskCountMap
 }
