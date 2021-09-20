@@ -48,10 +48,10 @@ func (o *CommonOptions) AddBaseFlags(cmd *cobra.Command) {
 func SetLoggingLevel(cmd *cobra.Command, args []string) {
 	verbose, _ := strconv.ParseBool(cmd.Flag(OptionVerbose).Value.String())
 	quiet, _ := strconv.ParseBool(cmd.Flag(OptionQuiet).Value.String())
-	level := os.Getenv("VGS_LOG_LEVEL")
+	level := os.Getenv("LOG_LEVEL")
 	if level != "" {
 		if verbose {
-			log.Logger().Trace("The VGS_LOG_LEVEL environment variable took precedence over the verbose flag")
+			log.Logger().Trace("The LOG_LEVEL environment variable took precedence over the verbose flag")
 		}
 
 		err := log.SetLevel(level)

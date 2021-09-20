@@ -28,7 +28,11 @@ RUN ls /app
 FROM centos:7
 
 LABEL author="Benjamin Smith"
+RUN echo 'export PS1="[\u@docker] \W # "' >> /root/.bash_profile
+
 COPY --from=builder ./app/build/main /usr/bin/main
 RUN ["chmod", "-R", "+x", "/usr/bin/main"]
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/bin/bash", "-c"]
+

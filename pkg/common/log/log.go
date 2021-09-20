@@ -99,7 +99,7 @@ func initializeLogger() error {
 		var fields logrus.Fields
 		logger = logrus.WithFields(fields)
 
-		format := os.Getenv("VGS_LOG_FORMAT")
+		format := os.Getenv("LOG_FORMAT")
 		if format == "json" {
 			setFormatter("json")
 		} else {

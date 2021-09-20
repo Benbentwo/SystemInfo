@@ -38,6 +38,7 @@ func (sysInfo *SystemInformation) GetAllInformation() {
 
 func (sysInfo *SystemInformation) RenderInformation() {
 	sysInfo.outputCPUToTable()
+	sysInfo.outputGPUToTable()
 	sysInfo.outputMemoryToTable()
 	sysInfo.outputDiskToTable()
 	SystemInfoWriter.Render()

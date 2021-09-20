@@ -5,12 +5,15 @@ import (
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
 	"github.com/jaypipes/ghw"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"runtime"
 )
 
 func getMem() *ghw.MemoryInfo {
 	memory, err := ghw.Memory()
 	if err != nil {
-		log.Logger().Errorf("Error getting memory info: %v", err)
+		if runtime.GOOS != "darwin" {
+			log.Logger().Errorf("Error getting memory info: %v", err)
+		}
 	}
 	return memory
 }

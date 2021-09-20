@@ -82,6 +82,9 @@ get-test-deps: ## Install test dependencies
 	$(GO_NOMOD) get github.com/axw/gocov/gocov
 	$(GO_NOMOD) get -u gopkg.in/matm/v1/gocov-html
 
+shell: ## runs docker-compose run getting into the shell faster.
+	docker-compose run os_info_dump
+
 print-version: ## Print version
 	@echo $(VERSION)
 
