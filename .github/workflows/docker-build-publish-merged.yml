@@ -4,7 +4,9 @@ on:
     types: [closed]
     branches:
       - master
-
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,16 +18,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: pr.json
-      - name: Setup Go environment
-        if: github.event.pull_request.merged
-        uses: actions/setup-go@v2.0.3
-        with:
-          go-version: 1.12.4
 
       - name: Checkout
-        if: github.event.pull_request.merged
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
 
       - name: Pull request merged
         if: github.event.pull_request.merged
@@ -68,11 +68,14 @@ jobs:
             echo "##[set-output name=release-command;]-p"
           fi
 
+
       - name: Debug Above Step
+        if: github.event.pull_request.merged
         run: |
           echo "${{steps.get-release-type.outputs.release-command}}"
           echo "${{steps.get-release-type.outputs.release-type}}"
       # https://github.com/Benbentwo/increment-semver
+
       - name: Increment Step Patch
         if: github.event.pull_request.merged
         id: increment-semver-patch
@@ -80,12 +83,13 @@ jobs:
         with:
           version-level: "${{steps.get-release-type.outputs.release-command}}"
 
-      - name: Make local Binaries
-        if: github.event.pull_request.merged
-        run: |
-          export VERSION=${{steps.docker_build.outputs.version}}
-          make all
-      #       Tag = <BranchName (Tag Safe)>-<Short Commit Hash>
+      - name: Increment Step Patch
+        if: ${{!github.event.pull_request.merged}}
+        id: increment-semver-patch
+        uses: Benbentwo/increment-semver@master
+        with:
+          version-level: "patch"
+
       - if: github.event.pull_request.merged
         run: |
           tag=${{ steps.increment-semver-patch.outputs.version }}
@@ -97,6 +101,13 @@ jobs:
           echo "##[set-output name=github_image;]$(echo ${github_image})"
 
         id: docker_build
+
+      - name: Make local Binaries
+        if: github.event.pull_request.merged
+        run: |
+          export VERSION=${{steps.docker_build.outputs.version}}
+          make all
+      #       Tag = <BranchName (Tag Safe)>-<Short Commit Hash>
 
       - name: Publish to Github Packages
         if: github.event.pull_request.merged
@@ -110,7 +121,6 @@ jobs:
 
       # https://github.com/marketplace/actions/create-a-release
       - name: Create Release
-        if: github.event.pull_request.merged
         id: create_release
         uses: actions/create-release@latest
         env:
@@ -118,7 +128,7 @@ jobs:
         with:
           tag_name: ${{steps.increment-semver-patch.outputs.version}}
           release_name: ${{steps.increment-semver-patch.outputs.version}}
-          draft: false
+          draft: ${{!github.event.pull_request.merged}}
           prerelease: false
 
 # https://github.com/svenstaro/upload-release-action
