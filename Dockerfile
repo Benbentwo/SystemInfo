@@ -1,4 +1,4 @@
-FROM golang:1.12.4 AS builder
+FROM golang:1.16.5 AS builder
 
 # Build arguments
 ARG binary_name=main

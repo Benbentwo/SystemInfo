@@ -1,0 +1,9 @@
+version: '3'
+services:
+  os_info_dump:
+    build:
+      context: ./
+    restart: unless-stopped
+    volumes:
+      - "./build/:/build"
+      - ".:/workspace"
