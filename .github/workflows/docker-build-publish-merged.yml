@@ -83,13 +83,6 @@ jobs:
         with:
           version-level: "${{steps.get-release-type.outputs.release-command}}"
 
-      - name: Increment Step Patch
-        if: ${{!github.event.pull_request.merged}}
-        id: increment-semver-patch
-        uses: Benbentwo/increment-semver@master
-        with:
-          version-level: "patch"
-
       - if: github.event.pull_request.merged
         run: |
           tag=${{ steps.increment-semver-patch.outputs.version }}
