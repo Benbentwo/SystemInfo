@@ -1,0 +1,25 @@
+[
+  {
+    "operating_system": ["darwin"],
+    "name": "brew",
+    "options": [
+      "--cask"
+    ],
+    "packages": [
+      "spotify",
+      "goland"
+    ]
+  },
+  {
+    "operating_system": ["darwin"],
+    "name": "custom",
+    "command": "/bin/bash",
+    "options": [
+      "-c"
+    ],
+    "packages": [
+      "curl my-bash.sh | sh",
+      "echo 'hello world'"
+    ]
+  }
+]

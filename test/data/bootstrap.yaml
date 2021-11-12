@@ -1,0 +1,14 @@
+ - operating_system: darwin
+   name: brew
+   options:
+      - --cask
+   packages:
+    - spotify
+     - goland
+- operating_system: darwin
+  package_manager:
+  name: custom
+  command: /bin/bash -c
+  packages:
+   - curl my-bash.sh | sh
+   - echo "hello world"
