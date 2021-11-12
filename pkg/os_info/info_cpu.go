@@ -3,13 +3,18 @@ package os_info
 import (
 	"fmt"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
+	"github.com/Benbentwo/Windows10BootStrapper/pkg/os_info/darwin"
 	"github.com/jaypipes/ghw"
 	"github.com/jaypipes/ghw/pkg/cpu"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"runtime"
 	"strconv"
 )
 
 func getCpu() *ghw.CPUInfo {
+	if runtime.GOOS == "darwin" {
+		return darwin.GetCpuDarwin()
+	}
 	cpuStats, err := ghw.CPU()
 	if err != nil {
 		log.Logger().Errorf("Error getting cpu info: %v", err)

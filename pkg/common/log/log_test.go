@@ -190,14 +190,14 @@ func TestInitializeLogger(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			_ = os.Setenv("VGS_LOG_FORMAT", test.logFormat)
+			_ = os.Setenv("LOG_FORMAT", test.logFormat)
 			logger = nil
 			err := initializeLogger()
 			assert.NoError(t, err)
 		})
 	}
 
-	_ = os.Unsetenv("VGS_LOG_FORMAT")
+	_ = os.Unsetenv("LOG_FORMAT")
 
 }
 
