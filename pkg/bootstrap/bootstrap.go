@@ -1,25 +1,31 @@
 package bootstrap
 
 import (
-	"encoding/json"
+	_ "encoding/json"
+	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/utils"
+	"gopkg.in/yaml.v2"
+	"sort"
+
+	"errors"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
 	"github.com/Benbentwo/utils/util"
-	"github.com/pkg/errors"
 	"io/ioutil"
 )
 
-//const (
-//	// TODO fix this
-//	SUPPORTED_PACKAGEMANAGERS [...]string = []string{
-//		"apk",
-//		"brew",
-//		"chocolatey",
-//	}
-//)
-gol
+type Profile struct {
+	ProfileName string
+	Installers  []Installer
+}
+type Installer struct {
+	OperatingSystem string   `yaml:"operating_system,omitempty"`
+	Name            string   `yaml:"name,omitempty"`
+	Options         []string `yaml:"options,omitempty"`
+	Packages        []string `yaml:"packages,omitempty"`
+	PackageManager  string   `yaml:"package_manager,omitempty"`
+	Command         string   `yaml:"command,omitempty"`
+}
 
-func LoadBootstrapConfig(inputFile string) (*[]BootstrapConfig, error) {
-	var bootstrapConfig *[]BootstrapConfig
+func LoadBootstrapConfig(inputFile string) ([]Profile, error) {
 
 	exists, err := util.FileExists(inputFile)
 	if err != nil {
@@ -28,53 +34,31 @@ func LoadBootstrapConfig(inputFile string) (*[]BootstrapConfig, error) {
 	if !exists {
 		return nil, errors.New("File inputted does not exist or could not be found")
 	}
-	//f, err := os.Open(inputFile)
-	//
-	//if err != nil {
-	//	return nil, errors.Errorf("Error Opening file: %s, Error: %s", inputFile, err)
-	//}
-	//defer f.Close()
-	//
-
 
 	filebytes, err := ioutil.ReadFile(inputFile)
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(filebytes, bootstrapConfig)
+
+	data := map[string][]Installer{}
+	err = yaml.Unmarshal(filebytes, &data)
 	if err != nil {
+		log.Logger().Errorf("Unmarshaling yaml failed: %s", err)
+		log.Logger().Debugf("%v", data)
 		return nil, err
 	}
-	log.Logger().Infof("Loaded the following config: %v", bootstrapConfig)
+
+	itemsMap := data
+	bootstrapConfig := make([]Profile, 0)
+	for k, v := range itemsMap {
+		bootstrapConfig = append(bootstrapConfig, Profile{
+			ProfileName: k,
+			Installers:  v,
+		})
+		log.Logger().Infof("Successfully Loaded Profile: %s", utils.ColorInfo(k))
+	}
+	sort.Slice(bootstrapConfig, func(i, j int) bool {
+		return bootstrapConfig[i].ProfileName < bootstrapConfig[j].ProfileName
+	})
 	return bootstrapConfig, nil
 }
-//
-//func (bsc *BootstrapConfig) LoadFile(inputFile string) (*BootstrapConfig, error) {
-//
-//	filebytes, err := os.ReadFile(inputFile)
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	err = json.Unmarshal(filebytes, bsc)
-//	if err != nil {
-//		return nil, err
-//	}
-//	log.Logger().Infof("Loaded the following config: %v", bsc)
-//	return bsc, nil
-//}
-
-//- operating_system: darwin
-// name: brew
-// options:
-//  - --cask
-// packages:
-//  - spotify
-//  - goland
-//- operating_system: darwin
-// package_manager:
-// name: custom
-// command: /bin/bash -c
-// packages:
-//  - curl my-bash.sh | sh
-//  - echo "hello world"

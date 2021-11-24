@@ -42,11 +42,11 @@ func Test_checkErr(t *testing.T) {
 		expected string
 	}{
 		{"No Error", args{nil, ret}, ""},
-		{"Fmt Exit", args{fmt.Errorf("exit"), ret}, "INFO: 1:error: exit\n"},
-		{"ErrExit", args{ErrExit, ret}, "INFO: 1:\n"},
-		{"Spaghetti", args{fmt.Errorf("spaghetti"), ret}, "INFO: 1:error: spaghetti\n"},
-		{"E Tacos", args{fmt.Errorf("error: tacos"), ret}, "INFO: 1:error: tacos\n"},
-		{"EE Tacos", args{fmt.Errorf("error: error: tacos"), ret}, "INFO: 1:error: error: tacos\n"},
+		{"Fmt Exit", args{fmt.Errorf("exit"), ret}, "INFO : 1:error: exit\n"},
+		{"ErrExit", args{ErrExit, ret}, "INFO : 1:\n"},
+		{"Spaghetti", args{fmt.Errorf("spaghetti"), ret}, "INFO : 1:error: spaghetti\n"},
+		{"E Tacos", args{fmt.Errorf("error: tacos"), ret}, "INFO : 1:error: tacos\n"},
+		{"EE Tacos", args{fmt.Errorf("error: error: tacos"), ret}, "INFO : 1:error: error: tacos\n"},
 	}
 
 	for _, tt := range tests {

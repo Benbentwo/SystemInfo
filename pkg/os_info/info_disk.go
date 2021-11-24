@@ -40,6 +40,6 @@ func diskCountMap(arr []*block.Disk) map[string]int {
 	for _, disk := range arr {
 		diskCountMap[disk.DriveType.String()] = diskCountMap[disk.DriveType.String()] + 1
 	}
-	log.Logger().Debugf("Processor Map: %s", diskCountMap)
+	log.Logger().Debugf("Processor Map: %v", diskCountMap)
 	return diskCountMap
 }

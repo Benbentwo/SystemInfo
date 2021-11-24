@@ -69,13 +69,19 @@ func (f *CustomTextFormat) Format(entry *logrus.Entry) ([]byte, error) {
 	level := strings.ToUpper(entry.Level.String())
 	switch level {
 	case "INFO":
-		b.WriteString(colorInfo(level))
+		b.WriteString(colorInfo("INFO "))
 		b.WriteString(": ")
 	case "WARNING":
-		b.WriteString(colorWarn(level))
+		b.WriteString(colorWarn("WARN "))
 		b.WriteString(": ")
 	case "DEBUG":
-		b.WriteString(colorStatus(level))
+		b.WriteString(colorStatus("DEBUG"))
+		b.WriteString(": ")
+	case "ERROR":
+		b.WriteString(colorError("ERROR"))
+		b.WriteString(": ")
+	case "FATAL":
+		b.WriteString(colorError("FATAL"))
 		b.WriteString(": ")
 	default:
 		b.WriteString(colorError(level))

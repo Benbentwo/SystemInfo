@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	_ "github.com/kylelemons/godebug/pretty"
 	"reflect"
 	"testing"
 )
@@ -12,29 +13,21 @@ func TestLoadBootstrapConfig(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *[]BootstrapConfig
+		want    []Profile
 		wantErr bool
 	}{
 		{
-			name: "Load Bootstrap.json",
-			args: args{inputFile: "../../test/data/bootstrap.json"},
-			want: &[]BootstrapConfig{
-				{
-					OperatingSystem: []string{"darwin"},
-					Name:            "brew",
-					Options:         []string{"--cask"},
-					Command:         "",
-					Packages:        []string{"spotify", "goland"},
+			name: "Load Bootstrap.yaml",
+			args: args{inputFile: "data/bootstrap.yaml"},
+			want: []Profile{
+				{"personal_computer", []Installer{
+					{"darwin", "brew", []string{"--cask"}, []string{"spotify", "goland"}, "", ""},
+					{"darwin", "custom", []string(nil), []string{"curl my-bash.sh | sh", `echo "hello world"`}, "", "/bin/bash -c"},
 				},
-				{
-					OperatingSystem: []string{"darwin"},
-					Name:            "custom",
-					Command:         "/bin/bash",
-					Options:         []string{"-c"},
-					Packages: []string{
-						"curl my-bash.sh | sh",
-						"echo 'hello world'",
-					},
+				},
+				{"work_computer", []Installer{
+					{"darwin", "brew", []string{"--cask"}, []string{"spotify", "goland"}, "", ""},
+				},
 				},
 			}, wantErr: false},
 	}
@@ -45,8 +38,9 @@ func TestLoadBootstrapConfig(t *testing.T) {
 				t.Errorf("LoadBootstrapConfig() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LoadBootstrapConfig() got = %v, want %v", got, tt.want)
+				t.Errorf("LoadBootstrapConfig() \n\tgot:\n\t\t%#v\n\twant: \n\t\t%#v\n", got, tt.want)
 			}
 		})
 	}

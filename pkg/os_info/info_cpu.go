@@ -44,6 +44,6 @@ func processorCountMap(arr []*cpu.Processor) map[string]int {
 	for _, processor := range arr {
 		processorCountMap[processor.Model] = processorCountMap[processor.Model] + 1
 	}
-	log.Logger().Debugf("Processor Map: %s", processorCountMap)
+	log.Logger().Debugf("Processor Map: %v", processorCountMap)
 	return processorCountMap
 }

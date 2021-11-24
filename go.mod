@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	code.cloudfoundry.org/bytefmt v0.0.0-20210608160410-67692ebc98de
-	github.com/Benbentwo/system_profiler v0.0.0-20210826142650-54eff0a4c7e8
 	github.com/Benbentwo/utils v0.0.0-20200421145317-4b55843e2072
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/fatih/color v1.9.0
@@ -17,7 +16,7 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.2.2
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/lorenzosaino/go-sysctl v0.1.1
+	github.com/kylelemons/godebug v1.1.0
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
@@ -31,5 +30,6 @@ require (
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	gopkg.in/AlecAivazis/survey.v1 v1.8.8
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
 )

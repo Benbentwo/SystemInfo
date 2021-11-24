@@ -20,8 +20,8 @@ func TestCaptureOutput(t *testing.T) {
 		args args
 		want string
 	}{
-		{"empty", args{func() { Logger().Print("") }}, "INFO: \n"},
-		{"nonempty", args{func() { Logger().Print("abc") }}, "INFO: abc\n"},
+		{"empty", args{func() { Logger().Print("") }}, "INFO : \n"},
+		{"nonempty", args{func() { Logger().Print("abc") }}, "INFO : abc\n"},
 		{"err", args{func() { Logger().Error("err") }}, "ERROR: err\n"},
 	}
 	for _, tt := range tests {
@@ -66,7 +66,7 @@ func TestLoggerFail(t *testing.T) {
 		Logger()
 		//assert.Nil(t, got)
 	})
-	assert.Equal(t, "WARNING: error initializing logrus mock logger error\n", logs)
+	assert.Equal(t, "WARN : error initializing logrus mock logger error\n", logs)
 
 }
 
@@ -146,10 +146,10 @@ func TestCustomTextFormat_Format(t *testing.T) {
 		message        string
 		expectedOutput string
 	}{
-		{"Basic", fields{false, false, ""}, "ABC", "INFO: ABC\n"},
-		{"InfoLevel", fields{true, false, ""}, "ABC", "INFO: ABC\n"},
-		{"TimeStamp", fields{true, true, dateFormatString}, "ABC", "INFO: " + currTime + " - ABC\n"},
-		{"TimeStamp2", fields{true, true, dateFormatString}, "ABC", "INFO: " + currTime + " - ABC\n"},
+		{"Basic", fields{false, false, ""}, "ABC", "INFO : ABC\n"},
+		{"InfoLevel", fields{true, false, ""}, "ABC", "INFO : ABC\n"},
+		{"TimeStamp", fields{true, true, dateFormatString}, "ABC", "INFO : " + currTime + " - ABC\n"},
+		{"TimeStamp2", fields{true, true, dateFormatString}, "ABC", "INFO : " + currTime + " - ABC\n"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
