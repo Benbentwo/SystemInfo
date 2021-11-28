@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	_ "encoding/json"
+	"github.com/Benbentwo/Windows10BootStrapper/pkg/bootstrap/package_managers"
 	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/utils"
 	"gopkg.in/yaml.v2"
 	"sort"
@@ -61,4 +62,8 @@ func LoadBootstrapConfig(inputFile string) ([]Profile, error) {
 		return bootstrapConfig[i].ProfileName < bootstrapConfig[j].ProfileName
 	})
 	return bootstrapConfig, nil
+}
+
+func (i Installer) GetInstaller() (package_managers.PackageManager, error) {
+	return package_managers.GetInstaller(i.Name)
 }

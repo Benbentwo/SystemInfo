@@ -27,6 +27,8 @@ var (
 	// given arguments with fmt.Sprint().
 	colorError = color.New(color.FgRed).SprintFunc()
 
+	colorCommand = color.New(color.FgBlue).SprintFunc()
+
 	logger *logrus.Entry
 
 	labelsPath = "/etc/labels"
@@ -45,13 +47,22 @@ type FormatLayoutType string
 type CustomTextFormat struct {
 	ShowInfoLevel   bool
 	ShowTimestamp   bool
+	ShowSubCommand  string
 	TimestampFormat string
 }
 
-func NewCustomTextFormat() *CustomTextFormat {
+func BeginSubCommandLogging(c string) {
+	logrus.SetFormatter(NewCustomTextFormat(c))
+}
+
+func EndSubCommandLogging() {
+	logrus.SetFormatter(NewCustomTextFormat(""))
+}
+func NewCustomTextFormat(cmd string) *CustomTextFormat {
 	return &CustomTextFormat{
 		ShowInfoLevel:   false,
 		ShowTimestamp:   false,
+		ShowSubCommand:  cmd,
 		TimestampFormat: "2006-01-02 15:04:05",
 	}
 }
@@ -67,35 +78,43 @@ func (f *CustomTextFormat) Format(entry *logrus.Entry) ([]byte, error) {
 	}
 
 	level := strings.ToUpper(entry.Level.String())
-	switch level {
-	case "INFO":
-		b.WriteString(colorInfo("INFO "))
-		b.WriteString(": ")
-	case "WARNING":
-		b.WriteString(colorWarn("WARN "))
-		b.WriteString(": ")
-	case "DEBUG":
-		b.WriteString(colorStatus("DEBUG"))
-		b.WriteString(": ")
-	case "ERROR":
-		b.WriteString(colorError("ERROR"))
-		b.WriteString(": ")
-	case "FATAL":
-		b.WriteString(colorError("FATAL"))
-		b.WriteString(": ")
-	default:
-		b.WriteString(colorError(level))
-		b.WriteString(": ")
-	}
-	if f.ShowTimestamp {
-		b.WriteString(entry.Time.Format(f.TimestampFormat))
-		b.WriteString(" - ")
-	}
+	messageSplit := strings.Split(entry.Message, "\n")
+	for _, message := range messageSplit {
 
-	b.WriteString(entry.Message)
+		switch level {
+		case "INFO":
+			b.WriteString(colorInfo("INFO "))
+			b.WriteString(": ")
+		case "WARNING":
+			b.WriteString(colorWarn("WARN "))
+			b.WriteString(": ")
+		case "DEBUG":
+			b.WriteString(colorStatus("DEBUG"))
+			b.WriteString(": ")
+		case "ERROR":
+			b.WriteString(colorError("ERROR"))
+			b.WriteString(": ")
+		case "FATAL":
+			b.WriteString(colorError("FATAL"))
+			b.WriteString(": ")
+		default:
+			b.WriteString(colorError(level))
+			b.WriteString(": ")
+		}
+		if f.ShowSubCommand != "" {
+			b.WriteString(colorCommand(strings.ToUpper(f.ShowSubCommand)))
+			b.WriteString(" : ")
+		}
+		if f.ShowTimestamp {
+			b.WriteString(entry.Time.Format(f.TimestampFormat))
+			b.WriteString(" - ")
+		}
 
-	if !strings.HasSuffix(entry.Message, "\n") {
-		b.WriteByte('\n')
+		b.WriteString(message)
+
+		if !strings.HasSuffix(message, "\n") {
+			b.WriteByte('\n')
+		}
 	}
 	return b.Bytes(), nil
 }
@@ -121,7 +140,7 @@ func setFormatter(layout FormatLayoutType) {
 	case "json":
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 	default:
-		logrus.SetFormatter(NewCustomTextFormat())
+		logrus.SetFormatter(NewCustomTextFormat(""))
 	}
 }
 
