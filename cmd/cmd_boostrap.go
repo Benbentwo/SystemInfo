@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"errors"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/bootstrap"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/utils"
+	"github.com/Benbentwo/SystemInfo/pkg/bootstrap"
+	"github.com/Benbentwo/SystemInfo/pkg/common"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/common/utils"
 	"github.com/Benbentwo/utils/util"
 	"github.com/spf13/cobra"
 	"strings"
@@ -107,7 +107,10 @@ func (options *BootstrapOptions) Run() error {
 		}
 
 		log.BeginSubCommandLogging(strings.ToUpper(installer.Name))
-		packageManager.InstallPackages(installer.Packages)
+		_, err = packageManager.InstallPackages(installer.Packages)
+		if err != nil {
+			return err
+		}
 		log.EndSubCommandLogging()
 	}
 	return nil

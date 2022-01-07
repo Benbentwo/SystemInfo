@@ -1,4 +1,4 @@
-module github.com/Benbentwo/Windows10BootStrapper
+module github.com/Benbentwo/SystemInfo
 
 go 1.16
 

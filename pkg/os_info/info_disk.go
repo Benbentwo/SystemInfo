@@ -2,7 +2,7 @@ package os_info
 
 import (
 	"code.cloudfoundry.org/bytefmt"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
 	"github.com/jaypipes/ghw"
 	"github.com/jaypipes/ghw/pkg/block"
 	"github.com/jedib0t/go-pretty/v6/table"

@@ -1,0 +1,17 @@
+pi_node_part_1:
+- operating_system: arm
+  name: apt-get
+  packages:
+   - git
+- operating_system: arm
+  name: custom
+  command: /bin/bash -c
+  packages:
+   - sudo sed -i -e 's/^net\.ifnames=0/cgroup_enable=memory cgroup_memory=1 net.ifnames=0/g' /boot/firmware/cmdline.txt && cat /boot/firmware/cmdline.txt
+   - sudo reboot
+
+pi_node_part_2:
+- name: custom
+  command: /bin/bash -c
+  packages:
+    - sudo snap install microk8s --classic

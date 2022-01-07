@@ -1,8 +1,7 @@
 package os_info
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/os_info/darwin"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
 	"github.com/jaypipes/ghw"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"runtime"
@@ -10,11 +9,11 @@ import (
 
 func getGpu() *ghw.GPUInfo {
 	if runtime.GOOS == "darwin" {
-		gpuInfo, err := darwin.GetGpuDarwin()
-		if err != nil {
-			log.Logger().Errorf("Failed to get GPU Information (OS: Darwin): %s", err)
-		}
-		return gpuInfo
+		//gpuInfo, err := darwin.GetGpuDarwin()
+		//if err != nil {
+		//	log.Logger().Errorf("Failed to get GPU Information (OS: Darwin): %s", err)
+		//}
+		//return gpuInfo
 	}
 	gpu, err := ghw.GPU()
 	if err != nil {

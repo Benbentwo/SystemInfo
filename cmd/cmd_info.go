@@ -3,9 +3,9 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/os_info"
+	"github.com/Benbentwo/SystemInfo/pkg/common"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/os_info"
 	"github.com/jaypipes/ghw/pkg/context"
 	"github.com/jaypipes/ghw/pkg/marshal"
 	"github.com/spf13/cobra"

@@ -2,7 +2,7 @@ package version
 
 import (
 	"fmt"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common"
+	"github.com/Benbentwo/SystemInfo/pkg/common"
 	"github.com/Benbentwo/utils/util"
 	"github.com/blang/semver"
 	"github.com/pkg/errors"

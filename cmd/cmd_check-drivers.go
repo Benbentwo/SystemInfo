@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common"
+	"github.com/Benbentwo/SystemInfo/pkg/common"
 	"github.com/spf13/cobra"
 )
 

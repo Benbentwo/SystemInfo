@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type Brew struct {
+type Apt struct {
 	//Cask	bool
 }
 
-func (b Brew) IsInstalled() (bool, error) {
-	log.BeginSubCommandLogging("BREW_VERSION")
-	cmd := exec.Command("brew", "--version")
+func (a Apt) IsInstalled() (bool, error) {
+	log.BeginSubCommandLogging("APT_GET_VERSION")
+	cmd := exec.Command("apt-get", "--version")
 	stdout, err := cmd.Output()
 
 	if err != nil {
@@ -27,19 +27,19 @@ func (b Brew) IsInstalled() (bool, error) {
 	return true, nil
 }
 
-func (b Brew) InstallManager() (string, error) {
+func (a Apt) InstallManager() (string, error) {
 	//log.Logger().WithFields(logrus.Fields{"pkg": pkg}).Error(err)
 	//log.Logger().WithFields(logrus.Fields{"cmd": name, "args": args}).Debugf()
 	panic("implement me")
 	return "", nil
 }
 
-func (b Brew) InstallPackage(p string, options ...string) (bool, error) {
-	log.Logger().WithFields(logrus.Fields{"cmd": "brew", "args": options, "pkg": p}).Infof("Installing: %s", p)
+func (a Apt) InstallPackage(p string, options ...string) (bool, error) {
+	log.Logger().WithFields(logrus.Fields{"cmd": "apt-get", "args": options, "pkg": p}).Infof("Installing: %s", p)
 
 	//log.Logger().WithFields(logrus.Fields{"cmd": "brew", "args": options}).Debugf("Running ")
-	log.BeginSubCommandLogging("BREW")
-	stdout, err := Execute("brew", "install", strings.Join(options, " "), p)
+	log.BeginSubCommandLogging("APT_GET")
+	stdout, err := Execute("apt-get", "install", "-y", strings.Join(options, " "), p)
 	if err != nil {
 		return false, err
 	}
@@ -47,10 +47,10 @@ func (b Brew) InstallPackage(p string, options ...string) (bool, error) {
 	return true, nil
 }
 
-func (b Brew) InstallPackages(p []string, options ...string) (map[string]PkgInstalledResult, error) {
+func (a Apt) InstallPackages(p []string, options ...string) (map[string]PkgInstalledResult, error) {
 	mapPkgs := make(map[string]PkgInstalledResult, 0)
 	for _, pkg := range p {
-		installed, err := b.InstallPackage(pkg, options...)
+		installed, err := a.InstallPackage(pkg, options...)
 		if err != nil {
 			mapPkgs[pkg] = PkgInstalledResult{Installed: false, Err: err}
 			break
@@ -61,11 +61,11 @@ func (b Brew) InstallPackages(p []string, options ...string) (map[string]PkgInst
 }
 
 //
-//func (b Brew) InstallPackage() error {
+//func (a Apt) InstallPackage() error {
 //	return nil
 //}
 //
-//func (b Brew) IsInstalled() error {
+//func (a Apt) IsInstalled() error {
 
 //}
 

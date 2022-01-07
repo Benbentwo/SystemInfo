@@ -1,7 +1,7 @@
 package package_managers
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
 	"os/exec"
 )
 

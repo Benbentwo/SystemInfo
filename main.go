@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/app"
+	"github.com/Benbentwo/SystemInfo/app"
 	"os"
 )
 

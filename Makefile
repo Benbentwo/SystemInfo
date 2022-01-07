@@ -1,6 +1,6 @@
 GIT_SERVER 	:= github.com
 ORG         := Benbentwo
-REPO        := Windows10BootStrapper
+REPO        := SystemInfo
 BINARY 		:= whatami
 
 # Pretty Constant stuff Below, Configurable above

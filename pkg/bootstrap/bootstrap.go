@@ -2,13 +2,13 @@ package bootstrap
 
 import (
 	_ "encoding/json"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/bootstrap/package_managers"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/utils"
+	"github.com/Benbentwo/SystemInfo/pkg/bootstrap/package_managers"
+	"github.com/Benbentwo/SystemInfo/pkg/common/utils"
 	"gopkg.in/yaml.v2"
 	"sort"
 
 	"errors"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
 	"github.com/Benbentwo/utils/util"
 	"io/ioutil"
 )

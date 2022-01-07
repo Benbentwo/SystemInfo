@@ -1,9 +1,9 @@
 package darwin
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/system_profile_adapter"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/system_profiler"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/system_profile_adapter"
+	"github.com/Benbentwo/SystemInfo/pkg/system_profiler"
 	//"github.com/Benbentwo/system_profiler"
 	"github.com/jaypipes/ghw"
 )

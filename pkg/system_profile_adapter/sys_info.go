@@ -1,8 +1,8 @@
 package system_profile_adapter
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/utils"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/system_profiler"
+	"github.com/Benbentwo/SystemInfo/pkg/common/utils"
+	"github.com/Benbentwo/SystemInfo/pkg/system_profiler"
 	//"github.com/Benbentwo/system_profiler"
 	"github.com/jaypipes/ghw"
 	"github.com/jaypipes/ghw/pkg/pci"

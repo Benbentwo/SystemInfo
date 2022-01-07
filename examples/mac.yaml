@@ -1,0 +1,23 @@
+personal_computer:
+- operating_system: darwin
+  name: brew
+  options:
+   - --cask
+  packages:
+   - spotify
+   - goland
+- operating_system: darwin
+  name: custom
+  command: /bin/bash -c
+  packages:
+   - curl my-bash.sh | sh
+   - echo "hello world"
+
+work_computer:
+- operating_system: darwin
+  name: brew
+  options:
+    - --cask
+  packages:
+    - spotify
+    - goland

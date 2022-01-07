@@ -2,7 +2,7 @@ package common
 
 import (
 	"fmt"
-	"github.com/Benbentwo/Windows10BootStrapper/pkg/common/log"
+	"github.com/Benbentwo/SystemInfo/pkg/common/log"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/AlecAivazis/survey.v1/terminal"

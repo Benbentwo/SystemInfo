@@ -1,9 +1,10 @@
+//go:build windows
 // +build windows
 
 package app
 
 import (
-	"github.com/Benbentwo/Windows10BootStrapper/cmd"
+	"github.com/Benbentwo/SystemInfo/cmd"
 	"os"
 	"syscall"
 )
